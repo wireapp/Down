@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		874A16A52056D074001C6760 /* libcmark.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 874A169A2056D059001C6760 /* libcmark.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		874A17202056D1EB001C6760 /* scanners.c in Sources */ = {isa = PBXBuildFile; fileRef = 874A16FA2056D1E6001C6760 /* scanners.c */; };
 		874A17212056D1EB001C6760 /* inlines.h in Headers */ = {isa = PBXBuildFile; fileRef = 874A16FB2056D1E6001C6760 /* inlines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		874A17222056D1EB001C6760 /* utf8.h in Headers */ = {isa = PBXBuildFile; fileRef = 874A16FC2056D1E6001C6760 /* utf8.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -133,16 +132,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		874A16A42056D068001C6760 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				874A16A52056D074001C6760 /* libcmark.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		90A40A9B1EC03282004F2E91 /* Copy Bundled Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -522,7 +511,6 @@
 				8A569F3B1E6B3E50008BE2AC /* Sources */,
 				8A569F3D1E6B3E50008BE2AC /* Headers */,
 				8A569F3E1E6B3E50008BE2AC /* Resources */,
-				874A16A42056D068001C6760 /* CopyFiles */,
 			);
 			buildRules = (
 				8AE66BE41F848C3900ED4C98 /* PBXBuildRule */,
