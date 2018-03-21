@@ -96,6 +96,20 @@ class NSMutableAttributedStringTests: XCTestCase {
         var range = NSMakeRange(NSNotFound, 0)
         let font = sut.attribute(.font, at: 0, effectiveRange: &range) as? UIFont
         XCTAssertEqual(UIFont.boldSystemFont(ofSize: 24), font)
+    }
+    
+    func testThatItBoldensAndPreservesItalics() {
+        // GIVEN
+        sut = NSMutableAttributedString(string: "example", attributes: [.font: UIFont.italicSystemFont(ofSize: 16)])
+        // WHEN
+        sut.bolden()
+        // THEN
+        var range = NSMakeRange(NSNotFound, 0)
+        let font = sut.attribute(.font, at: 0, effectiveRange: &range) as? UIFont
+        XCTAssertNotNil(font)
+        XCTAssertTrue(font!.isBold)
+        XCTAssertTrue(font!.isItalic)
+        XCTAssertEqual(16, font!.pointSize)
         XCTAssertEqual(NSMakeRange(0, sut.length), range)
     }
     

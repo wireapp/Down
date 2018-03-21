@@ -91,7 +91,7 @@ extension NSMutableAttributedString {
     /// Boldens the font while preserving existing symbolic traits.
     func bolden() {
         map(overKey: NSFontAttributeName) { (font: UIFont) -> UIFont in
-            return font.bold
+            return font.withoutLightWeight.bold
         }
     }
     
@@ -99,7 +99,7 @@ extension NSMutableAttributedString {
     /// the font size.
     func bolden(with size: CGFloat) {
         map(overKey: NSFontAttributeName) { (font: UIFont) -> UIFont in
-            return font.withSize(size).bold
+            return font.withoutLightWeight.withSize(size).bold
         }
     }
     
