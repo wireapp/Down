@@ -484,6 +484,27 @@ class AttributedStringParserTests: XCTestCase {
         XCTAssertEqual(expectation, result)
     }
     
+    // MARK: - Input Preparation (Bullet Points)
+    
+    func testThatItReplacesTrueBulletPointsWithDashes() {
+        // GIVEN
+        let input = combine(
+            text("• One\n", with: .uList),
+            text("•   Two\n", with: .uList),
+            text(" • Three\n", with: .uList)
+        )
+        // WHEN
+        let result = sut.parse(attributedString: input)
+        // THEN
+        let expectation =   """
+                            - One
+                            -   Two
+                             - Three
+
+                            """
+        XCTAssertEqual(expectation, result)
+    }
+    
     // MARK: - Long Input
     
     func testThatItParsesLongInput() {

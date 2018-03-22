@@ -172,7 +172,20 @@ public class AttributedStringParser {
     private func prepare(input: NSAttributedString) -> NSAttributedString {
         let attrStr = NSMutableAttributedString(attributedString: input)
         
-        // first check that there is a newline after every header, insert
+        // find occurrences of true bullet points
+        if let regex = try? NSRegularExpression(pattern: "^\\s*(•)\\s+", options: .anchorsMatchLines) {
+            let ranges = regex
+                        .matches(in: attrStr.string, options: [], range: NSMakeRange(0, (attrStr.string as NSString).length))
+                        .map { $0.rangeAt(1) }
+            
+            // replace with a dash
+            ranges.forEach {
+                let attrsAtRange = attrStr.attributes(at: $0.location, effectiveRange: nil)
+                attrStr.replaceCharacters(in: $0, with: NSAttributedString(string: "-", attributes: attrsAtRange))
+            }
+        }
+        
+        // next check that there is a newline after every header, insert
         // one if needed
         for header in [Markdown.h1, .h2, .h3] {
             var locationsToInsertNewlines = [Int]()
