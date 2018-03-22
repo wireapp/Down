@@ -83,7 +83,9 @@ import UIKit
     
     var listPrefixAttributes: Attributes {
         let font = UIFont.monospacedDigitSystemFont(ofSize: baseFont.pointSize, weight: UIFontWeightLight)
-        return [NSFontAttributeName: font]
+        return [NSFontAttributeName: font,
+                NSForegroundColorAttributeName: baseFontColor
+        ]
     }
     
     var oListAttributes: Attributes {
