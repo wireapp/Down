@@ -51,6 +51,8 @@ import UIKit
     /// The amount of space between the prefix and content of a list item
     public var listItemPrefixSpacing: CGFloat = 4
     
+    @objc public var listItemPrefixColor: UIColor?
+    
     var defaultAttributes: Attributes {
         return [MarkdownIDAttributeName: Markdown.none,
                 NSFontAttributeName: baseFont,
@@ -84,7 +86,7 @@ import UIKit
     var listPrefixAttributes: Attributes {
         let font = UIFont.monospacedDigitSystemFont(ofSize: baseFont.pointSize, weight: UIFontWeightLight)
         return [NSFontAttributeName: font,
-                NSForegroundColorAttributeName: baseFontColor
+                NSForegroundColorAttributeName: listItemPrefixColor ?? baseFontColor
         ]
     }
     
