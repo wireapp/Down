@@ -110,7 +110,7 @@ extension NSMutableAttributedString {
     
     /// Inserts the new markdown identifier into all existing identifiers.
     func add(markdownIdentifier: Markdown) {
-        map(overKey: MarkdownIDAttributeName) { (markdown: Markdown) -> Markdown in
+        map(overKey: MarkdownIDAttributeName, inRange: wholeRange, defaultValue: Markdown.none) { (markdown: Markdown) -> Markdown in
             return markdown.union(markdownIdentifier)
         }
     }
