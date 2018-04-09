@@ -49,21 +49,6 @@ class ASTTests: XCTestCase {
         XCTAssertNil(attrs[.link])
     }
     
-    func testThatItDoesNotRenderLinkIfPlaceholdContainsLink() {
-        // GIVEN
-        let input = "[www.test.com](www.example.com)"
-        let down = Down(markdownString: input)
-        // WHEN
-        let result = try? down.toAttributedString(using: style)
-        // THEN
-        XCTAssertNotNil(result)
-        XCTAssertEqual(input, result!.string.trimmingCharacters(in: .whitespacesAndNewlines))
-        var range = NSMakeRange(NSNotFound, 0)
-        let attrs = result!.attributes(at: 0, effectiveRange: &range)
-        XCTAssertEqual(NSMakeRange(0, (input as NSString).length), range)
-        XCTAssertNil(attrs[.link])
-    }
-    
     func testThatItDoesNotRenderInlineOnLinkPlaceholder() {
         // GIVEN
         let input = "[**click** *me* `please`](www.wire.com)"
