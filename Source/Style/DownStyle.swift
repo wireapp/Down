@@ -102,14 +102,6 @@ import UIKit
         ]
     }
     
-    var oListAttributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.oList]
-    }
-    
-    var uListAttributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.uList]
-    }
-    
     var h1Attributes: Attributes {
         return [MarkdownIDAttributeName: Markdown.h1,
                 NSForegroundColorAttributeName: h1Color ?? baseFontColor,
@@ -176,11 +168,8 @@ import UIKit
         case .blockQuote(_):
             return quoteAttributes
             
-        case .list(_, let type):
-            switch type {
-            case .ordered(_):   return oListAttributes
-            case .unordered:    return uListAttributes
-            }
+        case .list(_, _):
+            return nil
             
         case .listItem(_, _):
             return nil
