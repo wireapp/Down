@@ -161,4 +161,16 @@ public extension NSAttributedString {
     public func ranges(containing markdown: Markdown) -> [NSRange] {
         return ranges(containing: markdown, inRange: wholeRange)
     }
+    
+    /// Returns an array of (value, range) pairs for the given attributed key, where
+    /// value of the key is present at the range.
+    func attributeRanges<T>(for key: String, in range: NSRange) -> [(value: T, range: NSRange)] {
+        var result = [(T, NSRange)]()
+        enumerateAttribute(key, in: range, options: []) { val, attrRange, _ in
+            guard let val = val as? T else { return }
+            result.append((val, attrRange))
+        }
+        
+        return result
+    }
 }
