@@ -44,10 +44,7 @@ import UIKit
     
     public var quoteColor: UIColor? = .gray
     public var quoteParagraphStyle: NSParagraphStyle? = NSParagraphStyle.default.indentedBy(points: 24)
-    
-    /// The amount the list is indented from the leading margin
-    public var listIndentation: CGFloat = 0
-    
+        
     /// The amount of space between the prefix and content of a list item
     public var listItemPrefixSpacing: CGFloat = 8
     
@@ -147,14 +144,6 @@ import UIKit
         case 2:  return h2Size
         default: return h3Size
         }
-    }
-    
-    func listParagraphStyle(with prefixWidth: CGFloat) -> NSParagraphStyle {
-        return NSParagraphStyle
-            .default
-            .with(topSpacing: 4, bottomSpacing: 4)
-            .with(tabStopOffset: prefixWidth + listItemPrefixSpacing)
-            .indentedBy(points: listIndentation)
     }
     
     func attributes(for renderable: Renderable) -> Attributes? {
