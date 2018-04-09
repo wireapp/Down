@@ -375,14 +375,11 @@ extension Inline : Renderable {
                 
                 // first ensure the urlStr is valid
                 if let url = getURL(urlStr), Application.shared.canOpenURL(url) {
-                    // then ensure the link placeholder doesn't contain a link
-                    if getURL(content.string) == nil {
-                        // overwrite styling to avoid bold, italic, code links
-                        content.addAttributes(style.defaultAttributes)
-                        content.addAttribute(MarkdownIDAttributeName, value: Markdown.link, range: content.wholeRange)
-                        content.addAttribute(NSLinkAttributeName, value: url, range: content.wholeRange)
-                        return content
-                    }
+                    // overwrite styling to avoid bold, italic, code links
+                    content.addAttributes(style.defaultAttributes)
+                    content.addAttribute(MarkdownIDAttributeName, value: Markdown.link, range: content.wholeRange)
+                    content.addAttribute(NSLinkAttributeName, value: url, range: content.wholeRange)
+                    return content
                 }
             }
             
