@@ -54,6 +54,10 @@ extension NSMutableAttributedString {
         guard let attrs = attrs else { return }
         addAttributes(attrs, range: wholeRange)
     }
+    
+    func addAttribute(_ name: String, value: Any) {
+        addAttribute(name, value: value, range: wholeRange)
+    }
 }
 
 // MARK: - COMPLEX
@@ -62,12 +66,13 @@ extension NSMutableAttributedString {
     
     /// Updates the value for the given attribute key in the given range
     /// with the return value of the given transform function.
-    func map<A,B>(overKey key: String, inRange range: NSRange, using transform: (A) -> B) {
+    func map<A,B>(overKey key: String, inRange range: NSRange, defaultValue: A? = nil, using transform: (A) -> B) {
         // collect exists values & ranges for the key
         var values = [(value: A, range: NSRange)]()
         enumerateAttribute(key, in: range, options: []) { value, range, _ in
-            guard let value = value as? A else { return }
-            values.append((value, range))
+            if let value = value as? A ?? defaultValue {
+                values.append((value, range))
+            }
         }
         // update the value with the transformation
         for (value, range) in values {
@@ -105,7 +110,7 @@ extension NSMutableAttributedString {
     
     /// Inserts the new markdown identifier into all existing identifiers.
     func add(markdownIdentifier: Markdown) {
-        map(overKey: MarkdownIDAttributeName) { (markdown: Markdown) -> Markdown in
+        map(overKey: MarkdownIDAttributeName, inRange: wholeRange, defaultValue: Markdown.none) { (markdown: Markdown) -> Markdown in
             return markdown.union(markdownIdentifier)
         }
     }
@@ -115,6 +120,11 @@ public extension NSAttributedString {
     
     public var wholeRange: NSRange {
         return NSMakeRange(0, length)
+    }
+    
+    /// Returns an array of ranges where the given markdown ID is exactly present.
+    public func ranges(of markdown: Markdown) -> [NSRange] {
+        return ranges(of: markdown, inRange: wholeRange)
     }
     
     /// Returns an array of ranges where the given markdown ID is exactly present in
@@ -130,9 +140,9 @@ public extension NSAttributedString {
         return result.unified
     }
     
-    /// Returns an array of ranges where the given markdown ID is exactly present.
-    public func ranges(of markdown: Markdown) -> [NSRange] {
-        return ranges(of: markdown, inRange: wholeRange)
+    /// Returns an array of ranges where the given markdown ID is partially present.
+    public func ranges(containing markdown: Markdown) -> [NSRange] {
+        return ranges(containing: markdown, inRange: wholeRange)
     }
     
     /// Returns an array of ranges where the given markdown ID is partially present in
@@ -152,13 +162,18 @@ public extension NSAttributedString {
             }
         }
         
-        // combine any adjacent ranges that can be expressed as a single range
-        // eg: {0,1},{1,1} -> {0,2}
         return result.unified
     }
     
-    /// Returns an array of ranges where the given markdown ID is partially present.
-    public func ranges(containing markdown: Markdown) -> [NSRange] {
-        return ranges(containing: markdown, inRange: wholeRange)
+    /// Returns an array of (value, range) pairs for the given attributed key, where
+    /// value of the key is present at the range.
+    func attributeRanges<T>(for key: String, in range: NSRange) -> [(value: T, range: NSRange)] {
+        var result = [(T, NSRange)]()
+        enumerateAttribute(key, in: range, options: []) { val, attrRange, _ in
+            guard let val = val as? T else { return }
+            result.append((val, attrRange))
+        }
+        
+        return result
     }
 }

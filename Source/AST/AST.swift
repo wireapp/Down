@@ -44,8 +44,16 @@ enum ListType : CustomStringConvertible {
     func prefix(itemIndex: Int) -> String {
         // the tabs are used to align the list item content
         switch self {
-        case .ordered(let start):   return "\(start + itemIndex).\t"
-        case .unordered:            return "•\t"
+        case .ordered(let start):   return "\(start + itemIndex)."
+        case .unordered:            return "•"
+        }
+    }
+    
+    /// Returns the markdown identifier associated with the list type.
+    var markdownID: Markdown {
+        switch self {
+        case .ordered(start: _):    return .oList
+        case .unordered:            return .uList
         }
     }
     
@@ -211,57 +219,82 @@ extension Block : Renderable {
             content.addAttributes(attrs)
             return content
             
-        case .list(let items, type: _):
-            let content = items.render(with: style)
-            // find ranges of existing nested lists (we must do this before
-            // applying new attributes)
-            let ranges = content.ranges(containing: .oList) + content.ranges(containing: .uList)
-            
-            content.addAttributes(attrs)
+        case .list(let items, let type):
             
             // standard prefix width
-            var prefixWidth: CGFloat = ceil("99.".size(attributes: style.listPrefixAttributes).width)
+            var prefixMarginWidth = style.minListPrefixWidth
+            
             // last item will be the largest
             if let lastItem = items.last {
                 switch lastItem {
                 case .listItem(_, let prefix):
-                    let trimmed = prefix.trimmingCharacters(in: .whitespaces)
-                    let width = ceil(trimmed.size(attributes: style.listPrefixAttributes).width)
-                    prefixWidth = max(prefixWidth, width)
+                    prefixMarginWidth = max(prefixMarginWidth, style.widthOfListPrefix(prefix))
                 default:
                     break
                 }
             }
             
-            // the style for this outer list
-            let paragraphStyle = style.listParagraphStyle(with: prefixWidth)
-            // the indentation of the list item content (after the prefix)
-            let indentation = paragraphStyle.headIndent
+            // position where item text begins
+            let rule = prefixMarginWidth + style.listItemPrefixSpacing
             
-            // get the existing paragraph styles & ranges for the nested lists
-            var existingStyles: [(NSParagraphStyle, NSRange)] = []
-            ranges.forEach {
-                let val = content.attribute(NSParagraphStyleAttributeName, at: $0.location, effectiveRange: nil)
-                if let old = val as? NSParagraphStyle {
-                    let new = old.indentedBy(points: indentation - style.listIndentation)
-                    existingStyles.append((new, $0))
+            // rendering the items
+            let content = items.map { (item: Block) -> NSMutableAttributedString? in
+                switch item {
+                case .listItem(let children, let prefix):
+                    // render the content of this item first
+                    let content = children.render(with: style)
+                    let attrPrefix = NSMutableAttributedString(string: prefix, attributes: style.listPrefixAttributes)
+                    let space = NSMutableAttributedString(string: "\t")
+                    let result = [attrPrefix, space, content].join()
+                    
+                    // each item has it's own paragraph style
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.paragraphSpacing = 8
+                    
+                    // content is left aligned at the rule and wraps to this rule
+                    paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: rule, options: [:])]
+                    paragraphStyle.headIndent = rule
+                    
+                    // make the prefixes align right to the prefix margin (we push it as much as it is small than the margin)
+                    paragraphStyle.firstLineHeadIndent = prefixMarginWidth - attrPrefix.size().width
+                    
+                    // we want bullet points to line up with the last digit of a number item, not the dot
+                    if prefix == "•" {
+                        paragraphStyle.firstLineHeadIndent -= style.widthOfListPrefix(".")
+                    }
+                    
+                    // need to extract existing styles of any nested lists
+                    let rangesOfNestedLists = result.ranges(containing: .oList) + result.ranges(containing: .uList)
+                    
+                    var existingStyles: [(NSParagraphStyle, NSRange)] = []
+                    
+                    rangesOfNestedLists.forEach {
+                        let attributeRanges: [(NSParagraphStyle, NSRange)] = result.attributeRanges(for: NSParagraphStyleAttributeName, in: $0)
+                        existingStyles.append(contentsOf: attributeRanges)
+                    }
+                    
+                    // insert markdown id for the list
+                    result.add(markdownIdentifier: type.markdownID)
+                    
+                    // apply the paragraph style for this item
+                    result.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle)
+                    
+                    // apply the updated paragraph styles for the inner lists
+                    for (val, range) in existingStyles {
+                        result.addAttribute(NSParagraphStyleAttributeName, value: val.indentedBy(points: rule), range: range)
+                    }
+                    
+                    return result
+                    
+                default:
+                    return nil
                 }
-            }
-            
-            // apply the outer list paragraph style
-            content.addAttributes([NSParagraphStyleAttributeName: paragraphStyle])
-            
-            // apply the updated paragraph styles for the inner lists
-            for (val, range) in existingStyles {
-                content.addAttribute(NSParagraphStyleAttributeName, value: val, range: range)
-            }
+            }.join()
             
             return content
             
-        case .listItem(let children, let prefix):
-            let content = children.render(with: style)
-            let attrPrefix = NSMutableAttributedString(string: prefix, attributes: style.listPrefixAttributes)
-            return [attrPrefix, content].join()
+        case .listItem(_, _):
+            return nil
             
         case .codeBlock(let text):
             return NSMutableAttributedString(string: text, attributes: attrs)
