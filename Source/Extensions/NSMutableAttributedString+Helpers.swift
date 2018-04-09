@@ -165,8 +165,6 @@ public extension NSAttributedString {
         return result.unified
     }
     
-    }
-    
     /// Returns an array of (value, range) pairs for the given attributed key, where
     /// value of the key is present at the range.
     func attributeRanges<T>(for key: String, in range: NSRange) -> [(value: T, range: NSRange)] {
