@@ -121,6 +121,11 @@ public extension NSAttributedString {
         return NSMakeRange(0, length)
     }
     
+    /// Returns an array of ranges where the given markdown ID is exactly present.
+    public func ranges(of markdown: Markdown) -> [NSRange] {
+        return ranges(of: markdown, inRange: wholeRange)
+    }
+    
     /// Returns an array of ranges where the given markdown ID is exactly present in
     /// over the given range.
     public func ranges(of markdown: Markdown, inRange range: NSRange) -> [NSRange] {
@@ -134,9 +139,9 @@ public extension NSAttributedString {
         return result.unified
     }
     
-    /// Returns an array of ranges where the given markdown ID is exactly present.
-    public func ranges(of markdown: Markdown) -> [NSRange] {
-        return ranges(of: markdown, inRange: wholeRange)
+    /// Returns an array of ranges where the given markdown ID is partially present.
+    public func ranges(containing markdown: Markdown) -> [NSRange] {
+        return ranges(containing: markdown, inRange: wholeRange)
     }
     
     /// Returns an array of ranges where the given markdown ID is partially present in
@@ -156,14 +161,9 @@ public extension NSAttributedString {
             }
         }
         
-        // combine any adjacent ranges that can be expressed as a single range
-        // eg: {0,1},{1,1} -> {0,2}
         return result.unified
     }
     
-    /// Returns an array of ranges where the given markdown ID is partially present.
-    public func ranges(containing markdown: Markdown) -> [NSRange] {
-        return ranges(containing: markdown, inRange: wholeRange)
     }
     
     /// Returns an array of (value, range) pairs for the given attributed key, where
