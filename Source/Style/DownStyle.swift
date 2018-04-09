@@ -49,9 +49,21 @@ import UIKit
     public var listIndentation: CGFloat = 0
     
     /// The amount of space between the prefix and content of a list item
-    public var listItemPrefixSpacing: CGFloat = 4
+    public var listItemPrefixSpacing: CGFloat = 8
     
     @objc public var listItemPrefixColor: UIColor?
+    
+    /// The minimum prefix width is used to determine the alignment rule for
+    /// list items. It will always have enough space to fit 2-digit prefixes.
+    lazy var minListPrefixWidth: CGFloat = {
+        return self.widthOfListPrefix("99.")
+    }()
+    
+    /// Returns the width of the given prefix (in points) after applying its style.
+    func widthOfListPrefix(_ prefix: String) -> CGFloat {
+        let attrPrefix = NSAttributedString(string: prefix, attributes: self.listPrefixAttributes)
+        return attrPrefix.size().width
+    }
     
     var defaultAttributes: Attributes {
         return [MarkdownIDAttributeName: Markdown.none,
