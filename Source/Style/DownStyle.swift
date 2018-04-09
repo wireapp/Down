@@ -231,7 +231,7 @@ extension NSParagraphStyle {
         copy.firstLineHeadIndent += points
         copy.headIndent += points
         copy.tabStops = copy.tabStops.map {
-            NSTextTab(textAlignment: .left, location: $0.location + points)
+            NSTextTab(textAlignment: $0.alignment, location: $0.location + points)
         }
         return copy as NSParagraphStyle
     }
