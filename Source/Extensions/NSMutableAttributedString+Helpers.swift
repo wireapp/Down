@@ -54,6 +54,10 @@ extension NSMutableAttributedString {
         guard let attrs = attrs else { return }
         addAttributes(attrs, range: wholeRange)
     }
+    
+    func addAttribute(_ name: String, value: Any) {
+        addAttribute(name, value: value, range: wholeRange)
+    }
 }
 
 // MARK: - COMPLEX
