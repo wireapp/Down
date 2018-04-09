@@ -49,6 +49,14 @@ enum ListType : CustomStringConvertible {
         }
     }
     
+    /// Returns the markdown identifier associated with the list type.
+    var markdownID: Markdown {
+        switch self {
+        case .ordered(start: _):    return .oList
+        case .unordered:            return .uList
+        }
+    }
+    
     var description: String {
         switch self {
         case .ordered(let start):   return "Ordered: Start: \(start)"
@@ -211,7 +219,7 @@ extension Block : Renderable {
             content.addAttributes(attrs)
             return content
             
-        case .list(let items, type: _):
+        case .list(let items, let type):
             
             // standard prefix width
             var prefixMarginWidth = style.minListPrefixWidth
@@ -233,7 +241,7 @@ extension Block : Renderable {
             let content = items.map { (item: Block) -> NSMutableAttributedString? in
                 switch item {
                 case .listItem(let children, let prefix):
-                    // render the content of this item
+                    // render the content of this item first
                     let content = children.render(with: style)
                     let attrPrefix = NSMutableAttributedString(string: prefix, attributes: style.listPrefixAttributes)
                     let space = NSMutableAttributedString(string: "\t")
@@ -242,6 +250,7 @@ extension Block : Renderable {
                     // each item has it's own paragraph style
                     let paragraphStyle = NSMutableParagraphStyle()
                     paragraphStyle.paragraphSpacing = 8
+                    
                     // content is left aligned at the rule and wraps to this rule
                     paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: rule, options: [:])]
                     paragraphStyle.headIndent = rule
@@ -264,12 +273,11 @@ extension Block : Renderable {
                         existingStyles.append(contentsOf: attributeRanges)
                     }
                     
-                    // add the attributes for this item
-                    // FIXME: This should update, not overwrite
-                    result.addAttributes(attrs)
+                    // insert markdown id for the list
+                    result.add(markdownIdentifier: type.markdownID)
                     
                     // apply the paragraph style for this item
-                    result.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: result.wholeRange)
+                    result.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle)
                     
                     // apply the updated paragraph styles for the inner lists
                     for (val, range) in existingStyles {
