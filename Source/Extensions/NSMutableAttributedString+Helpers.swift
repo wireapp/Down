@@ -66,12 +66,13 @@ extension NSMutableAttributedString {
     
     /// Updates the value for the given attribute key in the given range
     /// with the return value of the given transform function.
-    func map<A,B>(overKey key: String, inRange range: NSRange, using transform: (A) -> B) {
+    func map<A,B>(overKey key: String, inRange range: NSRange, defaultValue: A? = nil, using transform: (A) -> B) {
         // collect exists values & ranges for the key
         var values = [(value: A, range: NSRange)]()
         enumerateAttribute(key, in: range, options: []) { value, range, _ in
-            guard let value = value as? A else { return }
-            values.append((value, range))
+            if let value = value as? A ?? defaultValue {
+                values.append((value, range))
+            }
         }
         // update the value with the transformation
         for (value, range) in values {
