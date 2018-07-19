@@ -12,42 +12,67 @@ gems_cache: &gems_cache
   key: v4-{{ checksum "Gemfile.lock" }}
   paths: ~/.gem
 
-# Carthage
-carthage_cache: &carthage_cache
-  key: v2-{{ checksum "Cartfile.resolved" }}
-  paths: Carthage/Build
+# DerivedData
+buildfiles_cache: &buildfiles_cache
+  key: v2-{{ .Revision }}
+  paths: DerivedData
 
-# -------------GEMS----------------
+# ------------Environment-----------------
+setup_environment: &setup_environment
+  name: "Setup environment"
+  command: |
+    mkdir -p build
+    curl -O "${DEPENDENCIES_BASE_URL}/environment.sh"
+    bash environment.sh
 
 version: 2
 jobs:
       
   build:
     <<: *defaults
-    branches:
-      ignore:
-        - develop
     steps:
     - checkout
-    - run: 
-        name: "Setup gems"
-        command: |
-          curl -O "${DEPENDENCIES_BASE_URL}/Gemfile"
-          curl -O "${DEPENDENCIES_BASE_URL}/Gemfile.lock"
-          curl -O "${DEPENDENCIES_BASE_URL}/.ruby-version"
+    - run: *setup_environment
     - restore_cache: *gems_cache
-    - restore_cache: *carthage_cache
     - run: 
-        name: "Install gems"
-        command: bundle install --path ~/.gem
+        name: "Get dependencies"
+        command: bash dependencies.sh
     - run: 
         name: "Build"
-        command: bundle exec fastlane build
+        command: bash build.sh
+    - save_cache: *gems_cache
+    - persist_to_workspace:
+        root: .
+        paths: 
+          - DerivedData
+          - build
+
+  test:
+    <<: *defaults
+    steps:
+    - checkout
+    - attach_workspace:
+        at: .
+    - run: *setup_environment
+    - restore_cache: *gems_cache
     - run: 
         name: "Test"
-        command: bundle exec fastlane test
+        command: bash test.sh
     - run: 
         name: "Post test"
-        command: bundle exec fastlane post_test
+        command: bash post_test.sh
+    - store_artifacts:
+        path: SnapshotResults
     - store_test_results:
-        path: test
+        path: build/junit
+
+
+# ----------------WORKFLOWS----------------
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
