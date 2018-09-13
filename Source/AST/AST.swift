@@ -269,7 +269,7 @@ extension Block : Renderable {
                     var existingStyles: [(NSParagraphStyle, NSRange)] = []
                     
                     rangesOfNestedLists.forEach {
-                        let attributeRanges: [(NSParagraphStyle, NSRange)] = result.attributeRanges(for: NSParagraphStyleAttributeName, in: $0)
+                        let attributeRanges: [(NSParagraphStyle, NSRange)] = result.attributeRanges(for: .paragraphStyle, in: $0)
                         existingStyles.append(contentsOf: attributeRanges)
                     }
                     
@@ -277,11 +277,11 @@ extension Block : Renderable {
                     result.add(markdownIdentifier: type.markdownID)
                     
                     // apply the paragraph style for this item
-                    result.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle)
+                    result.addAttribute(.paragraphStyle, value: paragraphStyle)
                     
                     // apply the updated paragraph styles for the inner lists
                     for (val, range) in existingStyles {
-                        result.addAttribute(NSParagraphStyleAttributeName, value: val.indentedBy(points: rule), range: range)
+                        result.addAttribute(.paragraphStyle, value: val.indentedBy(points: rule), range: range)
                     }
                     
                     return result
@@ -377,8 +377,8 @@ extension Inline : Renderable {
                 if let url = getURL(urlStr), Application.shared.canOpenURL(url) {
                     // overwrite styling to avoid bold, italic, code links
                     content.addAttributes(style.defaultAttributes)
-                    content.addAttribute(MarkdownIDAttributeName, value: Markdown.link, range: content.wholeRange)
-                    content.addAttribute(NSLinkAttributeName, value: url, range: content.wholeRange)
+                    content.addAttribute(.markdown, value: Markdown.link, range: content.wholeRange)
+                    content.addAttribute(.link, value: url, range: content.wholeRange)
                     return content
                 }
             }

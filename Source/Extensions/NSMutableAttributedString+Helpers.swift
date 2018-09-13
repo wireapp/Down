@@ -55,7 +55,7 @@ extension NSMutableAttributedString {
         addAttributes(attrs, range: wholeRange)
     }
     
-    func addAttribute(_ name: String, value: Any) {
+    func addAttribute(_ name: NSAttributedString.Key, value: Any) {
         addAttribute(name, value: value, range: wholeRange)
     }
 }
@@ -66,7 +66,7 @@ extension NSMutableAttributedString {
     
     /// Updates the value for the given attribute key in the given range
     /// with the return value of the given transform function.
-    func map<A,B>(overKey key: String, inRange range: NSRange, defaultValue: A? = nil, using transform: (A) -> B) {
+    func map<A,B>(overKey key: NSAttributedString.Key, inRange range: NSRange, defaultValue: A? = nil, using transform: (A) -> B) {
         // collect exists values & ranges for the key
         var values = [(value: A, range: NSRange)]()
         enumerateAttribute(key, in: range, options: []) { value, range, _ in
@@ -82,20 +82,20 @@ extension NSMutableAttributedString {
     
     /// Updates the value for the given attribute key over the whole range
     /// with the return value of the given transform function.
-    func map<A,B>(overKey key: String, using transform: (A) -> B) {
+    func map<A,B>(overKey key: NSAttributedString.Key, using transform: (A) -> B) {
         map(overKey: key, inRange: wholeRange, using: transform)
     }
     
     /// Italicizes the font while preserving existing symbolic traits.
     func italicize() {
-        map(overKey: NSFontAttributeName) { (font: UIFont) -> UIFont in
+        map(overKey: .font) { (font: UIFont) -> UIFont in
             return font.italic
         }
     }
     
     /// Boldens the font while preserving existing symbolic traits.
     func bolden() {
-        map(overKey: NSFontAttributeName) { (font: UIFont) -> UIFont in
+        map(overKey: .font) { (font: UIFont) -> UIFont in
             return font.withoutLightWeight.bold
         }
     }
@@ -103,14 +103,14 @@ extension NSMutableAttributedString {
     /// Boldens the font while preserving existing symbolic traits and updates
     /// the font size.
     func bolden(with size: CGFloat) {
-        map(overKey: NSFontAttributeName) { (font: UIFont) -> UIFont in
+        map(overKey: .font) { (font: UIFont) -> UIFont in
             return font.withoutLightWeight.withSize(size).bold
         }
     }
     
     /// Inserts the new markdown identifier into all existing identifiers.
     func add(markdownIdentifier: Markdown) {
-        map(overKey: MarkdownIDAttributeName, inRange: wholeRange, defaultValue: Markdown.none) { (markdown: Markdown) -> Markdown in
+        map(overKey: .markdown, inRange: wholeRange, defaultValue: Markdown.none) { (markdown: Markdown) -> Markdown in
             return markdown.union(markdownIdentifier)
         }
     }
@@ -132,7 +132,7 @@ public extension NSAttributedString {
     public func ranges(of markdown: Markdown, inRange range: NSRange) -> [NSRange] {
         var result = [NSRange]()
         
-        enumerateAttribute(MarkdownIDAttributeName, in: range, options: []) { val, range, _ in
+        enumerateAttribute(.markdown, in: range, options: []) { val, range, _ in
             let currentMarkdown = (val as? Markdown) ?? .none
             if currentMarkdown == markdown { result.append(range) }
         }
@@ -150,7 +150,7 @@ public extension NSAttributedString {
     public func ranges(containing markdown: Markdown, inRange range: NSRange) -> [NSRange] {
         var result = [NSRange]()
         
-        enumerateAttribute(MarkdownIDAttributeName, in: range, options: []) { val, range, _ in
+        enumerateAttribute(.markdown, in: range, options: []) { val, range, _ in
             let currentMarkdown = (val as? Markdown) ?? .none
             
             // special case, b/c all markdown contains .none
@@ -167,7 +167,7 @@ public extension NSAttributedString {
     
     /// Returns an array of (value, range) pairs for the given attributed key, where
     /// value of the key is present at the range.
-    func attributeRanges<T>(for key: String, in range: NSRange) -> [(value: T, range: NSRange)] {
+    func attributeRanges<T>(for key: NSAttributedString.Key, in range: NSRange) -> [(value: T, range: NSRange)] {
         var result = [(T, NSRange)]()
         enumerateAttribute(key, in: range, options: []) { val, attrRange, _ in
             guard let val = val as? T else { return }

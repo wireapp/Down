@@ -547,10 +547,6 @@ class AttributedStringParserTests: XCTestCase {
     
 }
 
-extension NSAttributedStringKey {
-    static let markdown = NSAttributedStringKey(rawValue: MarkdownIDAttributeName)
-}
-
 private extension String {
     var trimmed: String {
         return self.trimmingCharacters(in: .whitespaces)

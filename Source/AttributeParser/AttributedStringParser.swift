@@ -175,8 +175,8 @@ public class AttributedStringParser {
         // find occurrences of true bullet points
         if let regex = try? NSRegularExpression(pattern: "^\\s*(•)\\s+", options: .anchorsMatchLines) {
             let ranges = regex
-                        .matches(in: attrStr.string, options: [], range: NSMakeRange(0, (attrStr.string as NSString).length))
-                        .map { $0.rangeAt(1) }
+                .matches(in: attrStr.string, options: [], range: NSMakeRange(0, (attrStr.string as NSString).length))
+                .map { $0.range(at: 1) }
             
             // replace with a dash
             ranges.forEach {
@@ -219,17 +219,17 @@ public class AttributedStringParser {
                 // remove this markdown ID from whitespace prefix
                 let prefixLen = lengthOfWhitespacePrefix(of: str)
                 let prefixRange = NSMakeRange(range.location, prefixLen)
-                attrStr.map(overKey: MarkdownIDAttributeName, inRange: prefixRange, using: removeMarkdown)
+                attrStr.map(overKey: .markdown, inRange: prefixRange, using: removeMarkdown)
                 // remove this markdown ID from whitespace suffix
                 let suffixLen = lengthOfWhitespaceSuffix(of: str)
                 let suffixRange = NSMakeRange(range.upperBound - suffixLen, suffixLen)
-                attrStr.map(overKey: MarkdownIDAttributeName, inRange: suffixRange, using: removeMarkdown)
+                attrStr.map(overKey: .markdown, inRange: suffixRange, using: removeMarkdown)
     
                 // finally, remove this markdown ID from any newlines
                 let regex = try! NSRegularExpression(pattern: "[\\n\\r]", options: [])
                 regex.enumerateMatches(in: attrStr.string, options: [], range: range) { match, _, _ in
                     if let range = match?.range, range.location != NSNotFound {
-                        attrStr.map(overKey: MarkdownIDAttributeName, inRange: range, using: removeMarkdown)
+                        attrStr.map(overKey: .markdown, inRange: range, using: removeMarkdown)
                     }
                 }
             }

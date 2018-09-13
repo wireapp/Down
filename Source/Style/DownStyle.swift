@@ -22,7 +22,7 @@ import UIKit
 
 @objc public class DownStyle: NSObject {
     
-    public typealias Attributes = [String : Any]
+    public typealias Attributes = [NSAttributedString.Key : Any]
     
     @objc public var baseFont = UIFont.systemFont(ofSize: 17)
     @objc public var baseFontColor = UIColor.black
@@ -63,60 +63,60 @@ import UIKit
     }
     
     var defaultAttributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.none,
-                NSFontAttributeName: baseFont,
-                NSForegroundColorAttributeName: baseFontColor,
-                NSParagraphStyleAttributeName: baseParagraphStyle,
+        return [.markdown: Markdown.none,
+                .font: baseFont,
+                .foregroundColor: baseFontColor,
+                .paragraphStyle: baseParagraphStyle,
         ]
     }
     
     var boldAttributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.bold]
+        return [.markdown: Markdown.bold]
     }
     
     var italicAttributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.italic]
+        return [.markdown: Markdown.italic]
     }
     
     var codeAttributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.code,
-                NSFontAttributeName: codeFont,
-                NSForegroundColorAttributeName: codeColor ?? baseFontColor,
+        return [.markdown: Markdown.code,
+                .font: codeFont,
+                .foregroundColor: codeColor ?? baseFontColor,
         ]
     }
     
     var quoteAttributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.quote,
-                NSForegroundColorAttributeName: quoteColor ?? baseFontColor,
-                NSParagraphStyleAttributeName: quoteParagraphStyle ?? baseParagraphStyle,
+        return [.markdown: Markdown.quote,
+                .foregroundColor: quoteColor ?? baseFontColor,
+                .paragraphStyle: quoteParagraphStyle ?? baseParagraphStyle,
         ]
     }
     
     var listPrefixAttributes: Attributes {
-        let font = UIFont.monospacedDigitSystemFont(ofSize: baseFont.pointSize, weight: UIFontWeightLight)
-        return [NSFontAttributeName: font,
-                NSForegroundColorAttributeName: listItemPrefixColor ?? baseFontColor
+        let font = UIFont.monospacedDigitSystemFont(ofSize: baseFont.pointSize, weight: .light)
+        return [.font: font,
+                .foregroundColor: listItemPrefixColor ?? baseFontColor
         ]
     }
     
     var h1Attributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.h1,
-                NSForegroundColorAttributeName: h1Color ?? baseFontColor,
-                NSParagraphStyleAttributeName: headerParagraphStyle
+        return [.markdown: Markdown.h1,
+                .foregroundColor: h1Color ?? baseFontColor,
+                .paragraphStyle: headerParagraphStyle
         ]
     }
     
     var h2Attributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.h2,
-                NSForegroundColorAttributeName: h2Color ?? baseFontColor,
-                NSParagraphStyleAttributeName: headerParagraphStyle
+        return [.markdown: Markdown.h2,
+                .foregroundColor: h2Color ?? baseFontColor,
+                .paragraphStyle: headerParagraphStyle
         ]
     }
     
     var h3Attributes: Attributes {
-        return [MarkdownIDAttributeName: Markdown.h3,
-                NSForegroundColorAttributeName: h3Color ?? baseFontColor,
-                NSParagraphStyleAttributeName: headerParagraphStyle
+        return [.markdown: Markdown.h3,
+                .foregroundColor: h3Color ?? baseFontColor,
+                .paragraphStyle: headerParagraphStyle
         ]
     }
     
@@ -242,7 +242,7 @@ public extension UIFont {
     public var withoutLightWeight: UIFont {
         guard fontName.contains("Light") else { return self }
         guard let name = fontName.split(separator: "-").first else { return self }
-        let fontDesc = UIFontDescriptor(fontAttributes: [UIFontDescriptorNameAttribute: name])
+        let fontDesc = UIFontDescriptor(fontAttributes: [.name: name])
         // create the font again
         let font = UIFont(descriptor: fontDesc, size: pointSize)
         // preserve italic trait
@@ -259,7 +259,7 @@ public extension UIFont {
         return contains(.traitItalic)
     }
     
-    private func contains(_ trait: UIFontDescriptorSymbolicTraits) -> Bool {
+    private func contains(_ trait: UIFontDescriptor.SymbolicTraits) -> Bool {
         return fontDescriptor.symbolicTraits.contains(trait)
     }
     
@@ -274,7 +274,7 @@ public extension UIFont {
     }
     
     /// Returns a copy of the font with the added symbolic trait.
-    private func with(_ trait: UIFontDescriptorSymbolicTraits) -> UIFont {
+    private func with(_ trait: UIFontDescriptor.SymbolicTraits) -> UIFont {
         guard !contains(trait) else { return self }
         var traits = fontDescriptor.symbolicTraits
         traits.insert(trait)

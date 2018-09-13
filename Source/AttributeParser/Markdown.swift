@@ -18,8 +18,11 @@
 
 import Foundation
 
-/// The key for Markdown identification in an NSAttributedString
-public let MarkdownIDAttributeName = "MarkdownIDAttributeName"
+extension NSAttributedString.Key {
+    /// The key for Markdown identification in an NSAttributedString.
+    static let markdown = NSAttributedString.Key("MarkdownIDAttributeName")
+}
+
 
 /// Use as values for `MarkdownIDAttributeName` to be able to easily
 /// identify ranges of markdown in an `NSAttributedString`.

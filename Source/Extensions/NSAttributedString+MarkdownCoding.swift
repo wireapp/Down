@@ -28,7 +28,7 @@ extension NSAttributedString {
     
     public var withEncodedMarkdownIDs: NSAttributedString {
         let copy = NSMutableAttributedString(attributedString: self)
-        copy.map(overKey: MarkdownIDAttributeName) { (markdown: Markdown) -> Int in
+        copy.map(overKey: .markdown) { (markdown: Markdown) -> Int in
             return markdown.rawValue
         }
         return copy
@@ -36,7 +36,7 @@ extension NSAttributedString {
     
     public var withDecodedMarkdownIDs: NSAttributedString {
         let copy = NSMutableAttributedString(attributedString: self)
-        copy.map(overKey: MarkdownIDAttributeName) { (rawValue: Int) -> Markdown in
+        copy.map(overKey: .markdown) { (rawValue: Int) -> Markdown in
             return Markdown(rawValue: rawValue)
         }
         return copy
