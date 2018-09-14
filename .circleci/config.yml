@@ -1,6 +1,6 @@
 defaults: &defaults
   environment:
-    - DEPENDENCIES_BASE_URL: "https://raw.githubusercontent.com/wireapp/wire-ios-shared-resources/master"
+    - DEPENDENCIES_BASE_URL: "https://raw.githubusercontent.com/wireapp/wire-ios-shared-resources/xcode10"
   macos:
     xcode: "10.0.0"
   shell: /bin/bash --login -eo pipefail
