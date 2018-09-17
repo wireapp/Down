@@ -55,7 +55,7 @@ class NSMutableAttributedStringTests: XCTestCase {
         // GIVEN
         sut = NSMutableAttributedString(string: "example")
         // WHEN
-        sut.addAttributes([MarkdownIDAttributeName: Markdown.bold])
+        sut.addAttributes([.markdown: Markdown.bold])
         // THEN
         var range = NSMakeRange(NSNotFound, 0)
         let result = sut.attribute(.markdown, at: 0, effectiveRange: &range) as? Markdown
@@ -127,7 +127,7 @@ class NSMutableAttributedStringTests: XCTestCase {
     
     func testThatItReturnsRangesOfMarkdown() {
         // GIVEN
-        let bold = [NSAttributedStringKey.markdown: Markdown.bold]
+        let bold = [NSAttributedString.Key.markdown: Markdown.bold]
         sut.append(NSAttributedString(string: "normal"))
         sut.append(NSAttributedString(string: "bold", attributes: bold))
         sut.append(NSAttributedString(string: "normal"))
@@ -146,10 +146,10 @@ class NSMutableAttributedStringTests: XCTestCase {
     
     func testThatItReturnsRangesContainingMarkdown() {
         // GIVEN
-        let bold = [NSAttributedStringKey.markdown: Markdown.bold]
-        let h1Bold = [NSAttributedStringKey.markdown: Markdown([.h1, .bold])]
-        let boldItalic = [NSAttributedStringKey.markdown: Markdown([.bold, .italic])]
-        let italic = [NSAttributedStringKey.markdown: Markdown.italic]
+        let bold = [NSAttributedString.Key.markdown: Markdown.bold]
+        let h1Bold = [NSAttributedString.Key.markdown: Markdown([.h1, .bold])]
+        let boldItalic = [NSAttributedString.Key.markdown: Markdown([.bold, .italic])]
+        let italic = [NSAttributedString.Key.markdown: Markdown.italic]
         sut.append(NSAttributedString(string: "normal"))
         sut.append(NSAttributedString(string: "bold", attributes: bold))
         sut.append(NSAttributedString(string: "h1 bold", attributes: h1Bold))
