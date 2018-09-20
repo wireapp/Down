@@ -45,7 +45,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("# \(input.string)\n", result)
+        XCTAssertEqual("# \(input.string)\n", result.string)
     }
     
     func testThatItParses_H2() {
@@ -54,7 +54,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("## \(input.string)\n", result)
+        XCTAssertEqual("## \(input.string)\n", result.string)
     }
     
     func testThatItParses_H3() {
@@ -63,7 +63,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("### \(input.string)\n", result)
+        XCTAssertEqual("### \(input.string)\n", result.string)
     }
     
     func testThatItParses_Bold() {
@@ -72,7 +72,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("**\(input.string)**", result)
+        XCTAssertEqual("**\(input.string)**", result.string)
     }
     
     func testThatItParses_Italic() {
@@ -81,7 +81,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("_\(input.string)_", result)
+        XCTAssertEqual("_\(input.string)_", result.string)
     }
     
     func testThatItParses_Code() {
@@ -90,7 +90,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("`\(input.string)`", result)
+        XCTAssertEqual("`\(input.string)`", result.string)
     }
     
     // MARK: - Nested
@@ -104,7 +104,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("**_\(input.string)_**", result)
+        XCTAssertEqual("**_\(input.string)_**", result.string)
     }
     
     func testThatItParses_H1Bold() {
@@ -113,7 +113,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("# **\(input.string)**\n", result)
+        XCTAssertEqual("# **\(input.string)**\n", result.string)
     }
     
     func testThatItParses_H1Italic() {
@@ -122,7 +122,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("# _\(input.string)_\n", result)
+        XCTAssertEqual("# _\(input.string)_\n", result.string)
     }
     
     func testThatItParses_H1Code() {
@@ -131,7 +131,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("# `\(input.string)`\n", result)
+        XCTAssertEqual("# `\(input.string)`\n", result.string)
     }
     
     func testThatItParses_H1BoldItalic() {
@@ -140,7 +140,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("# **_\(input.string)_**\n", result)
+        XCTAssertEqual("# **_\(input.string)_**\n", result.string)
     }
     
     // MARK: True Substring Nesting
@@ -153,7 +153,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("_**\(BI.string)**" + "\(I.string)_" , result)
+        XCTAssertEqual("_**\(BI.string)**" + "\(I.string)_" , result.string)
     }
     
     func testThatItParses_BoldItalic_Bold() {
@@ -164,7 +164,7 @@ class AttributedStringParserTests: XCTestCase {
         // WHEN
         let result = sut.parse(attributedString: input)
         // THEN
-        XCTAssertEqual("**_\(BI.string)_" + "\(B.string)**" , result)
+        XCTAssertEqual("**_\(BI.string)_" + "\(B.string)**" , result.string)
     }
     
     func testThatItParses_H1_BoldItalic() {
@@ -176,7 +176,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "# \(H1.string)" + "**_\(H1BI.string)_**\n"
-        XCTAssertEqual(expectation , result)
+        XCTAssertEqual(expectation , result.string)
     }
     
     func testThatItParses_Bold_BoldItalic_Bold() {
@@ -188,7 +188,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "**\(B.string)" + " _\(BI.string.trimmed)_ " + "\(B.string)**"
-        XCTAssertEqual(expectation , result)
+        XCTAssertEqual(expectation , result.string)
     }
     
     func testThatItParses_Italic_BoldItalic_Italic() {
@@ -200,7 +200,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "_\(I.string)" + " **\(BI.string.trimmed)** " + "\(I.string)_"
-        XCTAssertEqual(expectation , result)
+        XCTAssertEqual(expectation , result.string)
     }
     
     // MARK: Multiple Nesting
@@ -219,7 +219,7 @@ class AttributedStringParserTests: XCTestCase {
             "# \(H1.string)" + "**\(H1B.string.trimmed)** "
             + "_\(H1I.string.trimmed)_ " + "`\(H1C.string)`\n"
         
-        XCTAssertEqual(expectation , result)
+        XCTAssertEqual(expectation , result.string)
     }
     
     func testThatItParses_BoldItalic_Italic_BoldItalic() {
@@ -231,7 +231,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "_**\(BI.string)**" + I.string + "**\(BI.string)**_"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItParses_BoldItalic_Bold_BoldItalic() {
@@ -243,7 +243,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "**_\(BI.string)_" + B.string + "_\(BI.string)_**"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     // MARK: - Nested Overlapping
@@ -258,7 +258,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "**\(B.string)" + " _\(BI.string.trimmed)_** " + "_\(I.string)_"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItParses_Italic_BoldItalic_Bold() {
@@ -271,7 +271,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "_\(I.string)" + " **\(BI.string.trimmed)**_ " + "**\(B.string)**"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     // MARK: - Disjoint Components
@@ -290,7 +290,7 @@ class AttributedStringParserTests: XCTestCase {
                 "# \(H1.string)\n"
                 + "**\(B.string.trimmed)** " + "_\(I.string.trimmed)_ " + "`\(C.string)`"
         
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItParses_H1_BoldItalic_Code_BoldItalic() {
@@ -306,7 +306,7 @@ class AttributedStringParserTests: XCTestCase {
             "# \(H1.string)\n"
             + "**_\(BI.string.trimmed)_** " + "`\(C.string.trimmed)` " + "**_\(BI.string.trimmed)_** "
         
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     // MARK: - Input Preparation (Excluding Whitespace)
@@ -320,7 +320,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = whitespace.string + "**\(B.string)**" + whitespace.string
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItExcludesLeadingAndTrailingWhiteSpaces_Italic() {
@@ -332,7 +332,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = whitespace.string + "_\(I.string)_" + whitespace.string
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItExcludesLeadingAndTrailingWhiteSpaces_Code() {
@@ -344,7 +344,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = whitespace.string + "`\(C.string)`" + whitespace.string
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItExcludesLeadingAndTrailingWhiteSpaces_BoldItalic() {
@@ -356,7 +356,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = whitespace.string + "**_\(BI.string)_**" + whitespace.string
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItExcludesLeadingWhitespaceFromMarkdownWhenOverlapped() {
@@ -370,7 +370,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "**Bold _BoldItalic_** _Italic_"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatStringsContainingOnlyWhiteSpaceProduceNoMarkdownSyntax() {
@@ -383,7 +383,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = B.string + I.string + C.string
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     // MARK: - Input Preparation (Newlines)
@@ -397,7 +397,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "**\(B.string)**" + N.string + "**\(B.string)**"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItParsesMultiline_Italic() {
@@ -409,7 +409,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "_\(I.string)_" + N.string + "_\(I.string)_"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItParsesMultiline_Code() {
@@ -421,7 +421,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "`\(C.string)`" + N.string + "`\(C.string)`"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItParsesMultiline_BoldItalic() {
@@ -433,7 +433,7 @@ class AttributedStringParserTests: XCTestCase {
         let result = sut.parse(attributedString: input)
         // THEN
         let expectation = "**_\(BI.string)_**" + N.string + "**_\(BI.string)_**"
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItInsertsNewlineAfterHeaderIfOneIsMissing() {
@@ -457,7 +457,7 @@ class AttributedStringParserTests: XCTestCase {
                             ### H3
                             Normal
                             """
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     func testThatItDoesNotInsertNewlineAfterHeaderIfOneIsAlreadyPresent() {
@@ -481,7 +481,7 @@ class AttributedStringParserTests: XCTestCase {
                             ### H3
                             Normal
                             """
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     // MARK: - Input Preparation (Bullet Points)
@@ -502,7 +502,7 @@ class AttributedStringParserTests: XCTestCase {
                              - Three
 
                             """
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
     }
     
     // MARK: - Long Input
@@ -542,7 +542,24 @@ class AttributedStringParserTests: XCTestCase {
         _Thank **you** and_ **goodbye!**
         """
         
-        XCTAssertEqual(expectation, result)
+        XCTAssertEqual(expectation, result.string)
+    }
+    
+    // MARK: - Attributes in Output
+    
+    func testThatItKeepsAnyNonMarkdownAttributes() {
+        // GIVEN
+        let range = NSRange(location: 0, length: 1)
+        let input = NSMutableAttributedString(attributedString: text("H1", with: .h1))
+        let additionalAttributes: [NSAttributedString.Key : Any] = [ .foregroundColor: UIColor.blue]
+        input.addAttributes(additionalAttributes, range: range)
+        
+        // WHEN
+        let result = sut.parse(attributedString: input)
+        
+        // THEN
+        XCTAssertEqual("# \(input.string)\n", result.string)
+        XCTAssertEqual(result.attributes(at: 2, effectiveRange: nil).keys, additionalAttributes.keys)
     }
     
 }

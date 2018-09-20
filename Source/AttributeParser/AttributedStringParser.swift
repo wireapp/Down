@@ -25,8 +25,10 @@ public class AttributedStringParser {
     public init() {}
     
     /// Converts an attributed string containing markdown attributes into a
-    /// plain text string containing markdown syntax.
-    public func parse(attributedString attrStr: NSAttributedString) -> String {
+    /// attributed text string containing markdown syntax.
+    ///
+    /// NOTE: Markdown attributes are removed during parsing.
+    public func parse(attributedString attrStr: NSAttributedString) -> NSAttributedString {
         
         let input = prepare(input: attrStr)
         
@@ -43,7 +45,7 @@ public class AttributedStringParser {
         stream.sort()
         
         // the output
-        var result = ""
+        let result = NSMutableAttributedString(string: "")
         // keeps track of the position in the input string
         var cursor = 0
         // keeps track of markdown nesting
@@ -55,7 +57,7 @@ public class AttributedStringParser {
             // push to stack
             stack.append(next)
             // append suffix
-            result.append(self.prefix(for: next.markdown))
+            result.append(NSAttributedString(string: self.prefix(for: next.markdown)))
             // update cursor
             cursor = next.range.location
         }
@@ -66,9 +68,9 @@ public class AttributedStringParser {
             // range from cursor to end of top's range
             let range = NSRange(from: cursor, to: top.range.upperBound)
             // append substring
-            result.append(input.attributedSubstring(from: range).string)
+            result.append(input.attributedSubstring(from: range))
             // append suffix
-            result.append(self.suffix(for: top.markdown))
+            result.append(NSAttributedString(string: self.suffix(for: top.markdown)))
             // update cursor
             cursor = range.upperBound
         }
@@ -84,7 +86,7 @@ public class AttributedStringParser {
                     // next is nested in current
                     // take input until next's location
                     let range = NSRange(from: cursor, to: next.range.location)
-                    let str = input.attributedSubstring(from: range).string
+                    let str = input.attributedSubstring(from: range)
                     result.append(str)
                     // enter the nest
                     pushNext()
@@ -133,6 +135,9 @@ public class AttributedStringParser {
         
         // flush stack
         while !stack.isEmpty { pop() }
+        
+        result.removeAttribute(.markdown, range: result.wholeRange)
+        
         return result
     }
     
