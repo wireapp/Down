@@ -116,6 +116,18 @@ extension NSMutableAttributedString {
     }
 }
 
+// MARK: - Paragraph style
+
+public extension NSMutableAttributedString {
+    func paragraphTailTruncated() {
+        map(overKey: .paragraphStyle) {
+            (paragraphStyle: NSMutableParagraphStyle) -> NSMutableParagraphStyle in
+            paragraphStyle.lineBreakMode = .byTruncatingTail
+            return paragraphStyle
+        }
+    }
+}
+
 public extension NSAttributedString {
     
     public var wholeRange: NSRange {
