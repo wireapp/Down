@@ -169,5 +169,36 @@ class NSMutableAttributedStringTests: XCTestCase {
         XCTAssertEqual(NSMakeRange(27, 10), italicResult[0])
         XCTAssertEqual(NSMakeRange(43, 6), italicResult[1])
     }
-    
+
+    func testThatItChangesParagraphLineBreakMode() {
+        // GIVEN
+        let down = Down(markdownString: """
+        # Summary of Today’s Meeting Upcoming due dates:
+        - Jan 4, final copy in review
+        - Jan 15, final layout with copy
+        - Jan 20, release on website
+        """)
+        // WHEN
+        let style = DownStyle()
+        let attributedString = try! down.toAttributedString(using: style)
+        let sut = NSMutableAttributedString(attributedString: attributedString)
+
+        // original line break mode is line wrap
+
+        checkAllparagraphStyle(lineBreakMode: .byWordWrapping)
+
+        // WHEN
+        sut.paragraphTailTruncated()
+
+        // THEN
+        checkAllparagraphStyle(lineBreakMode: .byTruncatingTail)
+    }
+
+    func checkAllparagraphStyle(lineBreakMode: NSLineBreakMode, file: StaticString = #file, line: UInt = #line) {
+        sut.enumerateAttributes(in: NSRange(0..<sut.length), options: []) { (dict, range, _) in
+            if let paragraphStyle = dict[NSAttributedString.Key.paragraphStyle] as? NSMutableParagraphStyle{
+                XCTAssertEqual(paragraphStyle.lineBreakMode, .byWordWrapping, file: file, line: line)
+            }
+        }
+    }
 }
