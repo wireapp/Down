@@ -119,6 +119,8 @@ extension NSMutableAttributedString {
 // MARK: - Paragraph style
 
 public extension NSMutableAttributedString {
+
+    /// Replace all paragraphs' line break mode to byTruncatingTail for quoted message display in a limit size frame
     func paragraphTailTruncated() {
         map(overKey: .paragraphStyle) {
             (paragraphStyle: NSMutableParagraphStyle) -> NSMutableParagraphStyle in
