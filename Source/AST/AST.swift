@@ -244,7 +244,7 @@ extension Block : Renderable {
                     // render the content of this item first
                     let content = children.render(with: style)
                     let attrPrefix = NSMutableAttributedString(string: prefix, attributes: style.listPrefixAttributes)
-                    let space = NSMutableAttributedString(string: "\t", attributes: style.listTabAttributes)
+                    let space = NSMutableAttributedString(string: "\t")
                     let result = [attrPrefix, space, content].join()
                     
                     // each item has it's own paragraph style
@@ -307,7 +307,10 @@ extension Block : Renderable {
             
         case .paragraph(let children):
             let content = children.render(with: style)
-            content.appendBreak()
+
+            let breakAttributes = style.attributes(for: self)
+
+            content.appendBreak(attributes: breakAttributes)
             return content
             
         case .heading(let children, let level):

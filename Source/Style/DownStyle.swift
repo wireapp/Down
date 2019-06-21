@@ -180,8 +180,11 @@ import UIKit
             case 2:  return h2Attributes
             default: return h3Attributes
             }
-            
-        case .document(_), .paragraph(_), .thematicBreak:
+
+        case .paragraph(_):
+            return defaultAttributes
+
+        case .document(_), .thematicBreak:
             return nil
         }
     }

@@ -38,16 +38,16 @@ extension NSMutableAttributedString {
         prepend("\n")
     }
     
-    func appendBreak() {
-        append("\n")
+    func appendBreak(attributes: [NSAttributedString.Key : Any]? = nil) {
+        append("\n", attributes: attributes)
     }
     
     private func prepend(_ string: String) {
         insert(NSAttributedString(string: string), at: 0)
     }
     
-    private func append(_ string: String) {
-        append(NSAttributedString(string: string))
+    private func append(_ string: String, attributes: [NSAttributedString.Key : Any]? = nil) {
+        append(NSAttributedString(string: string, attributes: attributes))
     }
     
     func addAttributes(_ attrs: DownStyle.Attributes?) {
