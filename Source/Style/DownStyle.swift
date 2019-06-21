@@ -98,7 +98,12 @@ import UIKit
                 .foregroundColor: listItemPrefixColor ?? baseFontColor
         ]
     }
-    
+
+    var listTabAttributes: Attributes {
+        let font = UIFont.monospacedDigitSystemFont(ofSize: baseFont.pointSize, weight: .light)
+        return [.font: font]
+    }
+
     var h1Attributes: Attributes {
         return [.markdown: Markdown.h1,
                 .foregroundColor: h1Color ?? baseFontColor,

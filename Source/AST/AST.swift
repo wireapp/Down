@@ -244,7 +244,7 @@ extension Block : Renderable {
                     // render the content of this item first
                     let content = children.render(with: style)
                     let attrPrefix = NSMutableAttributedString(string: prefix, attributes: style.listPrefixAttributes)
-                    let space = NSMutableAttributedString(string: "\t")
+                    let space = NSMutableAttributedString(string: "\t", attributes: style.listTabAttributes)
                     let result = [attrPrefix, space, content].join()
                     
                     // each item has it's own paragraph style
