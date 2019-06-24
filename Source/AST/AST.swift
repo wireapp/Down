@@ -307,7 +307,10 @@ extension Block : Renderable {
             
         case .paragraph(let children):
             let content = children.render(with: style)
-            content.appendBreak()
+
+            let breakAttributes = style.attributes(for: self)
+
+            content.appendBreak(attributes: breakAttributes)
             return content
             
         case .heading(let children, let level):
