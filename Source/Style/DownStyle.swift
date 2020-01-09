@@ -16,6 +16,8 @@
 // along with this program. If not, see http://www.gnu.org/licenses/.
 //
 
+#if canImport(UIKit)
+
 import Foundation
 import UIKit
 
@@ -287,3 +289,4 @@ public extension UIFont {
     }
 }
 
+#endif

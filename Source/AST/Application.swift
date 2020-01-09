@@ -16,6 +16,8 @@
 // along with this program. If not, see http://www.gnu.org/licenses/.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 import Foundation
 
@@ -32,3 +34,5 @@ extension UIApplication: UIApplicationProtocol {}
 struct Application {
     static var shared: UIApplicationProtocol = UIApplication.shared
 }
+
+#endif

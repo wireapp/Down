@@ -18,6 +18,8 @@
 
 // Inspired by: https://github.com/chriseidhof/commonmark-swift
 
+#if canImport(UIKit)
+
 import UIKit
 import Foundation
 import libcmark
@@ -493,3 +495,5 @@ extension Inline : CustomStringConvertible {
         return String(repeating: "\t", count: indent) + str
     }
 }
+
+#endif
