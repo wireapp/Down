@@ -34,7 +34,7 @@ public extension DownASTRenderable {
      - returns: An abstract syntax tree representation of the Markdown input
      */
     
-    public func toAST(_ options: DownOptions = .Default) throws -> UnsafeMutablePointer<cmark_node> {
+    func toAST(_ options: DownOptions = .Default) throws -> UnsafeMutablePointer<cmark_node> {
         return try DownASTRenderer.stringToAST(markdownString, options: options)
     }
 }

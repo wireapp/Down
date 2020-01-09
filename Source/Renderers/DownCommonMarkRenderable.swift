@@ -36,7 +36,7 @@ public extension DownCommonMarkRenderable {
      - returns: CommonMark Markdown string
      */
     
-    public func toCommonMark(_ options: DownOptions = .Default, width: Int32 = 0) throws -> String {
+    func toCommonMark(_ options: DownOptions = .Default, width: Int32 = 0) throws -> String {
         let ast = try DownASTRenderer.stringToAST(markdownString, options: options)
         let commonMark = try DownCommonMarkRenderer.astToCommonMark(ast, options: options, width: width)
         cmark_node_free(ast)

@@ -242,7 +242,7 @@ extension NSParagraphStyle {
 public extension UIFont {
     
     /// A copy of the font without the light weight.
-    public var withoutLightWeight: UIFont {
+    var withoutLightWeight: UIFont {
         guard fontName.contains("Light") else { return self }
         guard let name = fontName.split(separator: "-").first else { return self }
         let fontDesc = UIFontDescriptor(fontAttributes: [.name: name])
@@ -254,11 +254,11 @@ public extension UIFont {
     
     // MARK: - Trait Querying
     
-    public var isBold: Bool {
+    var isBold: Bool {
         return contains(.traitBold)
     }
     
-    public var isItalic: Bool {
+    var isItalic: Bool {
         return contains(.traitItalic)
     }
     
@@ -268,11 +268,11 @@ public extension UIFont {
     
     // MARK: - Set Traits
     
-    public var bold: UIFont {
+    var bold: UIFont {
         return self.with(.traitBold)
     }
     
-    public var italic: UIFont {
+    var italic: UIFont {
         return self.with(.traitItalic)
     }
     
