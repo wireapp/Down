@@ -87,6 +87,8 @@
 			compilerSpec = com.apple.compilers.pbxcp;
 			filePatterns = "*.inc";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -97,6 +99,8 @@
 			compilerSpec = com.apple.compilers.pbxcp;
 			filePatterns = "*COPYING";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -107,6 +111,8 @@
 			compilerSpec = com.apple.compilers.pbxcp;
 			filePatterns = "*.modulemap";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -575,6 +581,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = D4201E761CFA5151008EEC6E;
 			productRefGroup = D4201E811CFA5151008EEC6E /* Products */;
