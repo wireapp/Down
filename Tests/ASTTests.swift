@@ -43,9 +43,7 @@ class ASTTests: XCTestCase {
         // THEN
         XCTAssertNotNil(result)
         XCTAssertEqual(input, result!.string.trimmingCharacters(in: .whitespacesAndNewlines))
-        var range = NSMakeRange(NSNotFound, 0)
-        let attrs = result!.attributes(at: 0, effectiveRange: &range)
-        XCTAssertEqual(NSMakeRange(0, (input as NSString).length), range)
+        let attrs = result!.attributes(at: 0, effectiveRange: nil)
         XCTAssertNil(attrs[.link])
     }
     
