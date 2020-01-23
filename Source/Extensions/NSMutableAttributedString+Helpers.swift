@@ -132,18 +132,18 @@ public extension NSMutableAttributedString {
 
 public extension NSAttributedString {
     
-    public var wholeRange: NSRange {
+    var wholeRange: NSRange {
         return NSMakeRange(0, length)
     }
     
     /// Returns an array of ranges where the given markdown ID is exactly present.
-    public func ranges(of markdown: Markdown) -> [NSRange] {
+    func ranges(of markdown: Markdown) -> [NSRange] {
         return ranges(of: markdown, inRange: wholeRange)
     }
     
     /// Returns an array of ranges where the given markdown ID is exactly present in
     /// over the given range.
-    public func ranges(of markdown: Markdown, inRange range: NSRange) -> [NSRange] {
+    func ranges(of markdown: Markdown, inRange range: NSRange) -> [NSRange] {
         var result = [NSRange]()
         
         enumerateAttribute(.markdown, in: range, options: []) { val, range, _ in
@@ -155,13 +155,13 @@ public extension NSAttributedString {
     }
     
     /// Returns an array of ranges where the given markdown ID is partially present.
-    public func ranges(containing markdown: Markdown) -> [NSRange] {
+    func ranges(containing markdown: Markdown) -> [NSRange] {
         return ranges(containing: markdown, inRange: wholeRange)
     }
     
     /// Returns an array of ranges where the given markdown ID is partially present in
     /// over the given range.
-    public func ranges(containing markdown: Markdown, inRange range: NSRange) -> [NSRange] {
+    func ranges(containing markdown: Markdown, inRange range: NSRange) -> [NSRange] {
         var result = [NSRange]()
         
         enumerateAttribute(.markdown, in: range, options: []) { val, range, _ in

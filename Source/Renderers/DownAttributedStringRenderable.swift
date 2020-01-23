@@ -46,7 +46,7 @@ public extension DownAttributedStringRenderable {
      - returns: An `NSAttributedString`
      */
     
-    public func toAttributedString(_ options: DownOptions = .Default) throws -> NSAttributedString {
+    func toAttributedString(_ options: DownOptions = .Default) throws -> NSAttributedString {
         let html = try self.toHTML(options)
         return try NSAttributedString(htmlString: html)
     }
@@ -61,7 +61,7 @@ public extension DownAttributedStringRenderable {
      - returns: An `NSAttributedString`
      */
     
-    public func toAttributedString(using style: DownStyle) throws -> NSAttributedString {
+    func toAttributedString(using style: DownStyle) throws -> NSAttributedString {
         let ast = try DownASTRenderer.stringToAST(markdownString)
         let root = Node(node: ast)
         let document = Block(root)

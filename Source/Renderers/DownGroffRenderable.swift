@@ -36,7 +36,7 @@ public extension DownGroffRenderable {
      - returns: groff man string
      */
     
-    public func toGroff(_ options: DownOptions = .Default, width: Int32 = 0) throws -> String {
+    func toGroff(_ options: DownOptions = .Default, width: Int32 = 0) throws -> String {
         let ast = try DownASTRenderer.stringToAST(markdownString, options: options)
         let groff = try DownGroffRenderer.astToGroff(ast, options: options, width: width)
         cmark_node_free(ast)
