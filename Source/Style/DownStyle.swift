@@ -244,10 +244,12 @@ public extension UIFont {
     /// A copy of the font without the light weight.
     var withoutLightWeight: UIFont {
         guard fontName.contains("Light") else { return self }
-        guard let name = fontName.split(separator: "-").first else { return self }
-        let fontDesc = UIFontDescriptor(fontAttributes: [.name: name])
-        // create the font again
-        let font = UIFont(descriptor: fontDesc, size: pointSize)
+        
+        // WORKAROUND: remove font weight by re-creating the font using the system font.
+        // This will break if you use Down with a custom font. We should find a better
+	// way to solve this problem, but that probably requires architectural changes.
+        let font = UIFont.systemFont(ofSize: pointSize)
+        
         // preserve italic trait
         return isItalic ? font.italic : font
     }
