@@ -62,6 +62,19 @@ class NSMutableAttributedStringTests: XCTestCase {
         XCTAssertEqual(Markdown.bold, result)
         XCTAssertEqual(NSMakeRange(0, sut.length), range)
     }
+
+    func testThatItPreservesExistingMarkownIds() {
+        // // GIVEN
+        sut = NSMutableAttributedString(string: "example")
+        sut.addAttributes([.markdown: Markdown.bold])
+        // WHEN
+        sut.addAttributes([.markdown: Markdown.italic])
+        // THEN
+        var range = NSMakeRange(NSNotFound, 0)
+        let result = sut.attribute(.markdown, at: 0, effectiveRange: &range) as? Markdown
+        XCTAssertEqual([Markdown.bold, .italic], result)
+        XCTAssertEqual(NSMakeRange(0, sut.length), range)
+    }
     
     func testThatItItalicizes() {
         // GIVEN
