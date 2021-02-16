@@ -364,30 +364,35 @@ extension Inline : Renderable {
             
         case .link(let children, title: _, let urlStr):
             let content = children.render(with: style)
-            
-            
-            let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-            
-            // validate links
-            if let urlStr = urlStr, let detector = detector {
-                
-                let getURL: (String) -> URL? = { urlStr in
-                    let match = detector.firstMatch(in: urlStr, options: [], range: NSMakeRange(0, (urlStr as NSString).length))
-                    return match?.url
-                }
-                
-                // first ensure the urlStr is valid
-                if let url = getURL(urlStr), Application.shared.canOpenURL(url) {
-                    // overwrite styling to avoid bold, italic, code links
-                    content.addAttributes(style.defaultAttributes)
-                    content.addAttribute(.markdown, value: Markdown.link, range: content.wholeRange)
-                    content.addAttribute(.link, value: url, range: content.wholeRange)
-                    return content
-                }
+
+            let styleBlock: (URL) -> Void = {
+                // overwrite styling to avoid bold, italic, code links
+                content.addAttributes(style.defaultAttributes)
+                content.addAttribute(.markdown, value: Markdown.link, range: content.wholeRange)
+                content.addAttribute(.link, value: $0, range: content.wholeRange)
             }
-            
-            // the link isn't valid, so we just display the input text
-            return NSMutableAttributedString(string: "[\(content.string)](\(urlStr ?? ""))", attributes: style.defaultAttributes)
+
+            guard style.renderOnlyValidLinks else {
+                if let url = urlStr.flatMap(Foundation.URL.init(string:)) {
+                    styleBlock(url)
+                }
+
+                return content
+            }
+
+            let getURL: (String) -> URL? = { urlStr in
+                let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+                let match = detector?.firstMatch(in: urlStr, options: [], range: NSMakeRange(0, (urlStr as NSString).length))
+                return match?.url
+            }
+
+            if let url = urlStr.flatMap(getURL), Application.shared.canOpenURL(url) {
+                styleBlock(url)
+                return content
+            } else {
+                // the link isn't valid, so we just display the input text
+                return NSMutableAttributedString(string: "[\(content.string)](\(urlStr ?? ""))", attributes: style.defaultAttributes)
+            }
             
         case .image(let children, title: _, url: _):
             let content = children.render(with: style)
