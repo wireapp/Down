@@ -380,13 +380,7 @@ extension Inline : Renderable {
                 return content
             }
 
-            let getURL: (String) -> URL? = { urlStr in
-                let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-                let match = detector?.firstMatch(in: urlStr, options: [], range: NSMakeRange(0, (urlStr as NSString).length))
-                return match?.url
-            }
-
-            if let url = urlStr.flatMap(getURL), Application.shared.canOpenURL(url) {
+            if let url = urlStr?.detectedURL, Application.shared.canOpenURL(url) {
                 styleBlock(url)
                 return content
             } else {
@@ -497,4 +491,16 @@ extension Inline : CustomStringConvertible {
         
         return String(repeating: "\t", count: indent) + str
     }
+}
+
+// MARK: - Helpers
+
+private extension String {
+
+    var detectedURL: URL? {
+        let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let match = detector?.firstMatch(in: self, options: [], range: NSMakeRange(0, (self as NSString).length))
+        return match?.url
+    }
+
 }
