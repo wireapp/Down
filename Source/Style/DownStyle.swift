@@ -44,6 +44,10 @@ import UIKit
     
     public var quoteColor: UIColor? = .gray
     public var quoteParagraphStyle: NSParagraphStyle? = NSParagraphStyle.default.indentedBy(points: 24)
+
+    /// If true, then only links with valid urls will be rendered. Invalid links
+    /// will be rendered as raw markdown.
+    public var renderOnlyValidLinks = true
         
     /// The amount of space between the prefix and content of a list item
     public var listItemPrefixSpacing: CGFloat = 8

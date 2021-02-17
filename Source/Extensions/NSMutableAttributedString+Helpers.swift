@@ -51,7 +51,7 @@ extension NSMutableAttributedString {
     }
     
     func addAttributes(_ attrs: DownStyle.Attributes?) {
-        guard var attrs = attrs else { return }
+        guard length > 0, var attrs = attrs else { return }
 
         if
             let newMarkdownId = attrs[.markdown] as? Markdown,

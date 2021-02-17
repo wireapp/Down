@@ -63,5 +63,15 @@ class ASTTests: XCTestCase {
         XCTAssertNotNil(attrs[.link])
         XCTAssertEqual(style.baseFont, attrs[.font] as? UIFont)
     }
+
+    func testThatItParsesEmptyQuoteAsEmptyString() {
+        // GIVEN
+        let input = ">"
+        let down = Down(markdownString: input)
+        // WHEN
+        let result = try? down.toAttributedString(using: style)
+        // THEN
+        XCTAssertEqual(result, NSMutableAttributedString())
+    }
     
 }
