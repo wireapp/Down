@@ -365,23 +365,16 @@ extension Inline : Renderable {
         case .link(let children, title: _, let urlStr):
             let content = children.render(with: style)
 
-            let styleBlock: (URL) -> Void = {
-                // overwrite styling to avoid bold, italic, code links
-                content.addAttributes(style.defaultAttributes)
-                content.addAttribute(.markdown, value: Markdown.link, range: content.wholeRange)
-                content.addAttribute(.link, value: $0, range: content.wholeRange)
-            }
-
             guard style.renderOnlyValidLinks else {
                 if let url = urlStr.flatMap(Foundation.URL.init(string:)) {
-                    styleBlock(url)
+                    styleLink(content: content, url: url, style: style)
                 }
 
                 return content
             }
 
             if let url = urlStr?.detectedURL, Application.shared.canOpenURL(url) {
-                styleBlock(url)
+                styleLink(content: content, url: url, style: style)
                 return content
             } else {
                 // the link isn't valid, so we just display the input text
@@ -393,6 +386,14 @@ extension Inline : Renderable {
             return content
         }
     }
+
+    private func styleLink(content: NSMutableAttributedString, url: URL, style: DownStyle) {
+        // overwrite styling to avoid bold, italic, code links
+        content.addAttributes(style.defaultAttributes)
+        content.addAttribute(.markdown, value: Markdown.link, range: content.wholeRange)
+        content.addAttribute(.link, value: url, range: content.wholeRange)
+    }
+
 }
 
 // MARK: - STRING DESCRIPTION
