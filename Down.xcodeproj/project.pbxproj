@@ -253,7 +253,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		874A169B2056D059001C6760 /* libcmark */ = {
+		874A169B2056D059001C6760 /* cmark */ = {
 			isa = PBXGroup;
 			children = (
 				874A17452056D2B6001C6760 /* libcmark.h */,
@@ -296,7 +296,7 @@
 				874A171A2056D1EA001C6760 /* xml.c */,
 				874A169D2056D059001C6760 /* Info.plist */,
 			);
-			path = libcmark;
+			path = cmark;
 			sourceTree = "<group>";
 		};
 		907C64611EC120530095FEE1 /* Fixtures */ = {
@@ -350,7 +350,6 @@
 				D4201E9B1CFA59A5008EEC6E /* Sources */,
 				D41689B41CFFE6BB00E5802B /* Resources */,
 				D4201EC41CFA59A5008EEC6E /* Tests */,
-				874A169B2056D059001C6760 /* libcmark */,
 				D4201E811CFA5151008EEC6E /* Products */,
 			);
 			indentWidth = 4;
@@ -371,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				CBF4FEAE2C809CCB00EA6E06 /* Down */,
+				874A169B2056D059001C6760 /* cmark */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
