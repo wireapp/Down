@@ -317,6 +317,22 @@
 			path = Configurations;
 			sourceTree = "<group>";
 		};
+		CBF4FEAE2C809CCB00EA6E06 /* Down */ = {
+			isa = PBXGroup;
+			children = (
+				D4CF88961CFF94B300F07FD1 /* Down.h */,
+				D4201EF01CFA59F2008EEC6E /* Down.swift */,
+				D44875E71CFA6CF30037A624 /* Enums & Options */,
+				D43AE5C81CFFAE39006E1522 /* Extensions */,
+				D44875E21CFA6B120037A624 /* Renderers */,
+				D43AE5CB1CFFD068006E1522 /* Views */,
+				EE0936F02043F35500EC017A /* AttributeParser */,
+				EE0936EF2043F31100EC017A /* Style */,
+				EE6CBE082021C01100AD9E30 /* AST */,
+			);
+			path = Down;
+			sourceTree = "<group>";
+		};
 		D41689B41CFFE6BB00E5802B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,7 +347,7 @@
 		D4201E761CFA5151008EEC6E = {
 			isa = PBXGroup;
 			children = (
-				D4201E9B1CFA59A5008EEC6E /* Source */,
+				D4201E9B1CFA59A5008EEC6E /* Sources */,
 				D41689B41CFFE6BB00E5802B /* Resources */,
 				D4201EC41CFA59A5008EEC6E /* Tests */,
 				874A169B2056D059001C6760 /* libcmark */,
@@ -351,20 +367,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D4201E9B1CFA59A5008EEC6E /* Source */ = {
+		D4201E9B1CFA59A5008EEC6E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D4CF88961CFF94B300F07FD1 /* Down.h */,
-				D4201EF01CFA59F2008EEC6E /* Down.swift */,
-				D44875E71CFA6CF30037A624 /* Enums & Options */,
-				D43AE5C81CFFAE39006E1522 /* Extensions */,
-				D44875E21CFA6B120037A624 /* Renderers */,
-				D43AE5CB1CFFD068006E1522 /* Views */,
-				EE0936F02043F35500EC017A /* AttributeParser */,
-				EE0936EF2043F31100EC017A /* Style */,
-				EE6CBE082021C01100AD9E30 /* AST */,
+				CBF4FEAE2C809CCB00EA6E06 /* Down */,
 			);
-			path = Source;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		D4201EC41CFA59A5008EEC6E /* Tests */ = {
