@@ -67,7 +67,6 @@
 		CBF4FF292C80AD5200EA6E06 /* node.c in Sources */ = {isa = PBXBuildFile; fileRef = CBF4FF032C80AD5100EA6E06 /* node.c */; };
 		CBF4FF2A2C80AD5200EA6E06 /* inlines.c in Sources */ = {isa = PBXBuildFile; fileRef = CBF4FF042C80AD5100EA6E06 /* inlines.c */; };
 		CBF4FF2B2C80AD5200EA6E06 /* cmark.c in Sources */ = {isa = PBXBuildFile; fileRef = CBF4FF052C80AD5100EA6E06 /* cmark.c */; };
-		CBF4FF2D2C80B3C300EA6E06 /* libcmark.h in Headers */ = {isa = PBXBuildFile; fileRef = CBF4FF2C2C80B3C300EA6E06 /* libcmark.h */; };
 		EE061A47203D5A940084EFED /* AttributedStringParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE061A46203D5A940084EFED /* AttributedStringParserTests.swift */; };
 		EE0936EC2041CAF300EC017A /* NSMutableAttributedStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0936EB2041CAF300EC017A /* NSMutableAttributedStringTests.swift */; };
 		EE0936EE2041D68A00EC017A /* Sequence+NSMutableAttributedStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0936ED2041D68A00EC017A /* Sequence+NSMutableAttributedStringTests.swift */; };
@@ -194,7 +193,6 @@
 		CBF4FF032C80AD5100EA6E06 /* node.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = node.c; sourceTree = "<group>"; };
 		CBF4FF042C80AD5100EA6E06 /* inlines.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inlines.c; sourceTree = "<group>"; };
 		CBF4FF052C80AD5100EA6E06 /* cmark.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmark.c; sourceTree = "<group>"; };
-		CBF4FF2C2C80B3C300EA6E06 /* libcmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libcmark.h; sourceTree = "<group>"; };
 		D41689B21CFFE28200E5802B /* DownViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownViewTests.swift; sourceTree = "<group>"; };
 		D41689B51CFFE6BB00E5802B /* DownView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DownView.bundle; sourceTree = "<group>"; };
 		D4201EC51CFA59A5008EEC6E /* BindingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BindingTests.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 		874A169B2056D059001C6760 /* cmark */ = {
 			isa = PBXGroup;
 			children = (
-				CBF4FF2C2C80B3C300EA6E06 /* libcmark.h */,
 				CBF4FF012C80AD5100EA6E06 /* blocks.c */,
 				CBF4FEDF2C80AD4F00EA6E06 /* buffer.c */,
 				CBF4FEE02C80AD5000EA6E06 /* buffer.h */,
@@ -482,7 +479,6 @@
 				CBF4FF212C80AD5200EA6E06 /* chunk.h in Headers */,
 				CBF4FF1E2C80AD5200EA6E06 /* node.h in Headers */,
 				CBF4FF092C80AD5200EA6E06 /* buffer.h in Headers */,
-				CBF4FF2D2C80B3C300EA6E06 /* libcmark.h in Headers */,
 				CBF4FF0F2C80AD5200EA6E06 /* references.h in Headers */,
 				CBF4FF172C80AD5200EA6E06 /* cmark_ctype.h in Headers */,
 				CBF4FF252C80AD5200EA6E06 /* inlines.h in Headers */,
