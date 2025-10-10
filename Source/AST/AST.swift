@@ -242,7 +242,11 @@ extension Block : Renderable {
                 switch item {
                 case .listItem(let children, let prefix):
                     // render the content of this item first
-                    let content = children.render(with: style)
+                    var content = children.render(with: style)
+                    if content.string.isEmpty {
+                        // this fixes the problem of broken nested lists if the element is empty:
+                        content = NSMutableAttributedString(string: "\n")
+                    }
                     let attrPrefix = NSMutableAttributedString(string: prefix, attributes: style.listPrefixAttributes)
                     let space = NSMutableAttributedString(string: "\t")
                     let result = [attrPrefix, space, content].join()
