@@ -18,7 +18,11 @@
 
 // Inspired by: https://github.com/chriseidhof/commonmark-swift
 
+#if canImport(UIKit)
 import UIKit
+#else
+import AppKit
+#endif
 import Foundation
 import libcmark
 
@@ -28,7 +32,7 @@ protocol Renderable {
     func render(with style: DownStyle) -> NSMutableAttributedString?
 }
 
-enum ListType : CustomStringConvertible {
+public enum ListType : CustomStringConvertible {
     case ordered(start: Int)
     case unordered
     
@@ -57,7 +61,7 @@ enum ListType : CustomStringConvertible {
         }
     }
     
-    var description: String {
+    public var description: String {
         switch self {
         case .ordered(let start):   return "Ordered: Start: \(start)"
         case .unordered:            return "Unordered"
@@ -65,7 +69,7 @@ enum ListType : CustomStringConvertible {
     }
 }
 
-enum Inline {
+public enum Inline {
     case text(text: String)
     case softBreak
     case lineBreak
@@ -78,7 +82,7 @@ enum Inline {
     case image(children: [Inline], title: String?, url: String?)
 }
 
-enum Block {
+public enum Block {
     case document(children: [Block])
     case blockQuote(items: [Block])
     case list(items: [Block], type: ListType)
@@ -404,7 +408,7 @@ extension Inline : Renderable {
 
 extension Block : CustomStringConvertible {
     /// Describes the tree rooted at this node.
-    var description: String {
+    public var description: String {
         return description(indent: 0)
     }
     
@@ -453,7 +457,7 @@ extension Block : CustomStringConvertible {
 
 extension Inline : CustomStringConvertible {
     /// Describes the tree rooted at this node.
-    var description: String {
+    public var description: String {
         return description(indent: 0)
     }
     

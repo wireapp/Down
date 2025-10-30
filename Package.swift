@@ -6,6 +6,7 @@ let package = Package(
     name: "Down",
     platforms: [
         .iOS("15.0"),
+        .macOS("15.0"),
     ],
     products: [
         .library(

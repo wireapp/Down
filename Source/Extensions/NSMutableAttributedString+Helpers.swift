@@ -17,7 +17,11 @@
 //
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#else
+import AppKit
+#endif
 
 extension Sequence where Iterator.Element == NSMutableAttributedString? {
     /// Returns the concatenation of the non nil elements in this sequence.
@@ -101,14 +105,14 @@ extension NSMutableAttributedString {
     
     /// Italicizes the font while preserving existing symbolic traits.
     func italicize() {
-        map(overKey: .font) { (font: UIFont) -> UIFont in
+        map(overKey: .font) { (font: Font) -> Font in
             return font.italic
         }
     }
     
     /// Boldens the font while preserving existing symbolic traits.
     func bolden() {
-        map(overKey: .font) { (font: UIFont) -> UIFont in
+        map(overKey: .font) { (font: Font) -> Font in
             return font.withoutLightWeight.bold
         }
     }
@@ -116,7 +120,7 @@ extension NSMutableAttributedString {
     /// Boldens the font while preserving existing symbolic traits and updates
     /// the font size.
     func bolden(with size: CGFloat) {
-        map(overKey: .font) { (font: UIFont) -> UIFont in
+        map(overKey: .font) { (font: Font) -> Font in
             return font.withoutLightWeight.withSize(size).bold
         }
     }

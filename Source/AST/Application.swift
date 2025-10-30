@@ -16,7 +16,6 @@
 // along with this program. If not, see http://www.gnu.org/licenses/.
 //
 
-import UIKit
 import Foundation
 
 // In order to create a mock UIApplication object for unit tests, we wrap
@@ -27,8 +26,25 @@ protocol UIApplicationProtocol {
     func canOpenURL(_ url: URL) -> Bool
 }
 
+
+#if canImport(UIKit)
+import UIKit
 extension UIApplication: UIApplicationProtocol {}
 
 struct Application {
     static var shared: UIApplicationProtocol = UIApplication.shared
 }
+
+#else
+import AppKit
+
+extension NSApplication: UIApplicationProtocol {
+    func canOpenURL(_ url: URL) -> Bool {
+        NSWorkspace.shared.urlForApplication(toOpen: url) != nil
+    }
+}
+
+struct Application {
+    static var shared: UIApplicationProtocol = NSApplication.shared
+}
+#endif
